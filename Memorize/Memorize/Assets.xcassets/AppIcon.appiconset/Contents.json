@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "honeybee.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
@@ -56,6 +57,7 @@
       "size" : "29x29"
     },
     {
+      "filename" : "honeybee-1.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "29x29"
