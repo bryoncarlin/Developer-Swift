@@ -7,18 +7,22 @@
 
 import SwiftUI
 
-class CardView {
-    static let emojis = ["👽","😈","💀","💩","👻","😺","🐝","🌶","🦖","🦄","👨‍❤️‍💋‍👨","🫃","🫥","🐁","🐘","⚾️","🥃","🥸","🥺","🐱"]
-    
+class CardView: ObservableObject {
+    static let emojis = ["👽", "😈", "💀", "💩", "👻", "😺", "🐝", "🌶", "🦖", "🦄", "👨‍❤️‍💋‍👨", "🫃", "🫥", "🐁", "🐘", "⚾️", "🥃", "🥸", "🥺", "🐱"]
     static func createCardGame() -> CardGame<String> {
-        CardGame<String>(numberOfPairs: 4) { pairIndex in
+        CardGame<String>(numberOfPairs: 10) { pairIndex in
             CardView.emojis[pairIndex]
         }
     }
     
-    private var model: CardGame<String> = CardView.createCardGame()
+    @Published private var model: CardGame<String> = CardView.createCardGame()
     
     var cards: Array<CardGame<String>.Card>{
         return model.cards
     }
+    //MARK: - Intet(s)
+    func choose(_ card: CardGame<String>.Card) {
+        model.choose(card)
+    }
 }
+
