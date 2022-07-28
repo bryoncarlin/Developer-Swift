@@ -7,22 +7,33 @@
 
 import Foundation
 
-struct CardGame<CardContent> {
+struct CardGame<CardContent> where CardContent: Equatable {
     private(set) var cards: Array<Card>
     
-   mutating func choose(_ card: Card) {
-        let chosenIndex = index(of: card)
-        cards[chosenIndex].isFaceUp.toggle()
+    private var indexOfFaceUpCard: Int?
+    
+    mutating func choose(_ card: Card) {
+        if let chosenIndex = cards.firstIndex(where: {$0.id == card.id}),
+           !cards[chosenIndex].isFaceUp,
+           !cards[chosenIndex].isMatched
+        {
+            if let MatchIndex = indexOfFaceUpCard{
+                if cards[chosenIndex].content == cards[chosenIndex].content {
+                    cards[chosenIndex].isMatched = true
+                    cards[MatchIndex].isMatched = true
+                }
+                indexOfFaceUpCard = nil
+            }else{
+                for index in 0..<cards.count{
+                    cards[index].isFaceUp = false
+                }
+                indexOfFaceUpCard = chosenIndex
+            }
+            cards[chosenIndex].isFaceUp.toggle()
+        }
         print("\(cards)")
     }
-    func index(of card: Card) -> Int {
-        for index in 0..<cards.count {
-            if cards[index].id == card.id {
-                return index
-            }
-        }
-        return 0
-    }
+    
     init(numberOfPairs: Int, createCardContent: (Int) -> CardContent) {
         cards = Array<Card>()
         //adds the pairs of cards * 2 to the array
